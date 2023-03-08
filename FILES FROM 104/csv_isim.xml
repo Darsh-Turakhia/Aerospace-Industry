@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig IDIversion="Created by TDI7.1.1.1 - 2012-08-03" created="Tue Feb 26 15:35:53 EST 2013" createdBy="root" modified="Tue Feb 26 15:35:53 EST 2013" modifiedBy="root" version="7.1.1">
+    <Folder name="AssemblyLines">
+        <AssemblyLine name="CSVtoISIM">
+            <ModTime>1361910918672</ModTime>
+            <LogEnabled>true</LogEnabled>
+            <Settings>
+                <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+                <parameter name="automapattributes">false</parameter>
+                <parameter name="createTombstones">false</parameter>
+                <parameter name="debug">false</parameter>
+                <parameter name="includeGlobalPrologs">true</parameter>
+                <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+            </Settings>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="ReadCSV" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="ReadCSV">
+                    <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                    <ModTime>1361910918672</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">true</parameter>
+                        <parameter name="filePath">/classfiles/data/people1.csv</parameter>
+                    </Configuration>
+                    <ComputeChanges>true</ComputeChanges>
+                    <DeltaBehavior>0</DeltaBehavior>
+                    <DeltaStrict>true</DeltaStrict>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                        <parameter name="characterSet"/>
+                        <parameter name="csvColumnSeparator">,</parameter>
+                        <parameter name="csvEnableQuoting">true</parameter>
+                        <parameter name="csvLogLongLines">0</parameter>
+                        <parameter name="csvWriteHeader">true</parameter>
+                        <parameter name="debug">false</parameter>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>$dn</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value="uid=" + conn.getString("First Name").substr(0,1).toLowerCase() + conn.getString("Last Name").toLowerCase();</Script>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>cn</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value=conn.getString("First Name") + " " + conn.getString("Last Name");</Script>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>departmentnumber</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>Dept</Simple>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>givenname</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>First Name</Simple>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>objectclass</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value="inetorgperson";</Script>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>sn</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>Last Name</Simple>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>title</Name>
+                            <Type>simple</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Simple>title</Simple>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>uid</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>ret.value=conn.getString("First Name").substr(0,1).toLowerCase() + conn.getString("Last Name").toLowerCase();</Script>
+                            <SubstitutionTemplate>null</SubstitutionTemplate>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <Driver>CloudScape</Driver>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Dept</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Employee ID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>First Name</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hire</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Last Name</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Manager</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>Dept</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Employee ID</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>First Name</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Hire</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Last Name</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Manager</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>Title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <OperationCarrierIsProperty>false</OperationCarrierIsProperty>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance>
+                        <Enabled>false</Enabled>
+                        <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                    </PoolInstance>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer"/>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+        <AssemblyLine name="ISIMListener">
+            <ModTime>1361908140046</ModTime>
+            <Settings/>
+            <Hooks/>
+            <CheckpointConfig/>
+            <SandboxConfig/>
+            <SimulationConfig>
+                <SimulationStates>
+                    <Component name="ISIM_SearchRequest?" state="Enabled"/>
+                    <Component name="ISIM_TestConnection" state="Enabled"/>
+                    <Component name="ReturnRootDSE" state="Enabled"/>
+                    <Component name="ISIM_Reconciliation" state="Enabled"/>
+                    <Component name="call_CSVtoISIM" state="Enabled"/>
+                    <Component name="PutSearchResult" state="Enabled"/>
+                    <Component name="ExitFlow" state="Enabled"/>
+                    <Component name="OperationNotSupported" state="Enabled"/>
+                    <Component name="ISIMListener" state="Enabled"/>
+                </SimulationStates>
+                <ProxySettings/>
+            </SimulationConfig>
+            <LogConfig/>
+            <ContainerEF name="EntryFeedContainer">
+                <Connector name="ISIMListener">
+                    <InheritFrom>system:/Connectors/ibmdi.DSMLv2SOAPServerConnector</InheritFrom>
+                    <ModTime>1361908057586</ModTime>
+                    <ConnectorMode>Server</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="dsmlPort">8800</parameter>
+                        <parameter name="httpAuth">false</parameter>
+                        <parameter name="soapbinding">false</parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>dsml.base</Name>
+                            <Type>simple</Type>
+                            <Simple>dsml.base</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>dsml.operation</Name>
+                            <Type>simple</Type>
+                            <Simple>dsml.operation</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>dsml.operation</Name>
+                            <Type>simple</Type>
+                            <Simple>dsml.operation</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings/>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$dn</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.attributes</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.base</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.compare_name</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.compare_value</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.deleteOldRDN</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.derefAliases</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.extended.requestname</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.extended.requestvalue</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.filter</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.newSuperior</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.operation</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.scope</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.sizeLimit</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.timeLimit</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.typesOnly</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>newrdn</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$dn</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>Always</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.compare_result</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.error</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.exception</Name>
+                            <Syntax>javax.naming.NamingException</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.operation</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.referral</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.response</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.responseName</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.resultcode</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>dsml.resultdescr</Name>
+                            <Syntax>String</Syntax>
+                            <Presence>May</Presence>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+            </ContainerEF>
+            <ContainerDF name="DataFlowContainer">
+                <Branch name="ISIM_SearchRequest?">
+                    <ModTime>1361908140046</ModTime>
+                    <Branch name="ISIM_TestConnection">
+                        <ModTime>1361899768548</ModTime>
+                        <Script name="ReturnRootDSE">
+                            <ModTime>1361899768548</ModTime>
+                            <parameter name="script"><![CDATA[var e = system.newEntry();
+  e.setAttribute("namingContexts", "dc=IDIFeed");
+  e.setAttribute("$dn", "");
+  ISIMListener.connector.putEntry(e);]]></parameter>
+                        </Script>
+                        <ScriptCondition><![CDATA[task.logmsg("base=" + work.getString("dsml.base"));
+ret.value = "".equals(work.getString("dsml.base"));]]></ScriptCondition>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>0</Type>
+                    </Branch>
+                    <Branch name="ISIM_Reconciliation">
+                        <ModTime>1361908140046</ModTime>
+                        <Loop name="call_CSVtoISIM">
+                            <ModTime>1361908140046</ModTime>
+                            <LoopType>1</LoopType>
+                            <Connector name="call_CSVtoISIM">
+                                <InheritFrom>system:/Connectors/ibmdi.AssemblyLineConnector</InheritFrom>
+                                <ModTime>1361908140046</ModTime>
+                                <ConnectorMode>Iterator</ConnectorMode>
+                                <ConnectorState>Enabled</ConnectorState>
+                                <Configuration>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <parameter name="assemblyLine">CSVtoISIM</parameter>
+                                    <parameter name="debug">true</parameter>
+                                </Configuration>
+                                <Parser>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <Schema name="Input">
+                                        <InheritFrom>[parent]</InheritFrom>
+                                    </Schema>
+                                    <Schema name="Output">
+                                        <InheritFrom>[parent]</InheritFrom>
+                                    </Schema>
+                                </Parser>
+                                <AttributeMap name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <AttributeMapItem>
+                                        <Name>*</Name>
+                                        <Type>simple</Type>
+                                        <Simple>*</Simple>
+                                    </AttributeMapItem>
+                                </AttributeMap>
+                                <AttributeMap name="Output"/>
+                                <DeltaSettings>
+                                    <WhenToCommit>After every database operation</WhenToCommit>
+                                    <RowLocking>SERIALIZABLE</RowLocking>
+                                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                                </DeltaSettings>
+                                <Schema name="Input">
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>$dn</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>cn</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>departmentNumber</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>dsml.base</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>dsml.operation</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>givenname</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>objectclass</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>sn</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>title</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>uid</Name>
+                                    </SchemaItem>
+                                </Schema>
+                                <Schema name="Output">
+                                    <UserComment>{extsyntax=TEXTAREA, name=userComment}</UserComment>
+                                    <InheritFrom>[no inheritance]</InheritFrom>
+                                    <SchemaItem>
+                                        <Name>assemblyLine</Name>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>config</Name>
+                                        <NativeSyntax>string</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>customSecurity</Name>
+                                        <NativeSyntax>boolean</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>debug</Name>
+                                        <NativeSyntax>boolean</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>operationInit</Name>
+                                        <NativeSyntax>component</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>server</Name>
+                                        <NativeSyntax>string</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>shareLog</Name>
+                                        <NativeSyntax>boolean</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>simulate.mode</Name>
+                                        <NativeSyntax>boolean</NativeSyntax>
+                                    </SchemaItem>
+                                    <SchemaItem>
+                                        <Name>userComment</Name>
+                                        <NativeSyntax>TEXTAREA</NativeSyntax>
+                                    </SchemaItem>
+                                </Schema>
+                                <LinkCriteria/>
+                                <Hooks>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </Hooks>
+                                <CheckpointConfig/>
+                                <SandboxConfig/>
+                                <Reconnect>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                    <ReconnectRules/>
+                                </Reconnect>
+                                <Operations/>
+                                <PoolDefinition>
+                                    <InheritFrom>[parent]</InheritFrom>
+                                </PoolDefinition>
+                                <PoolInstance/>
+                                <InitializeOption>0</InitializeOption>
+                            </Connector>
+                            <Branch name="call_CSVtoISIM">
+                                <ModTime>1361908140046</ModTime>
+                                <Script name="PutSearchResult">
+                                    <ModTime>1361899784410</ModTime>
+                                    <parameter name="script"><![CDATA[var e = system.newEntry();
+e.setAttribute(work.getAttribute("$dn"));
+e.setAttribute(work.getAttribute("departmentnumber"));
+e.setAttribute(work.getAttribute("Title"));
+e.setAttribute(work.getAttribute("cn"));
+e.setAttribute(work.getAttribute("givenname"));
+e.setAttribute(work.getAttribute("objectClass"));
+e.setAttribute(work.getAttribute("sn"));
+e.setAttribute(work.getAttribute("uid"));
+ISIMListener.connector.putEntry(e);]]></parameter>
+                                </Script>
+                                <Conditions/>
+                                <MatchAny>false</MatchAny>
+                                <Enabled>true</Enabled>
+                                <Type>0</Type>
+                            </Branch>
+                        </Loop>
+                        <Conditions/>
+                        <MatchAny>false</MatchAny>
+                        <Enabled>true</Enabled>
+                        <Type>2</Type>
+                    </Branch>
+                    <ScriptCondition><![CDATA[task.logmsg("Operation=" + work.getString("dsml.operation"));
+ret.value = "searchRequest".equals(work.getString("dsml.operation"));]]></ScriptCondition>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>0</Type>
+                </Branch>
+                <Branch name="ExitFlow">
+                    <Script name="OperationNotSupported">
+                        <parameter name="script"><![CDATA[// Go to end of cycle
+system.exitFlow();
+]]></parameter>
+                    </Script>
+                    <Conditions/>
+                    <MatchAny>false</MatchAny>
+                    <Enabled>true</Enabled>
+                    <Type>2</Type>
+                </Branch>
+            </ContainerDF>
+            <ThreadOptions/>
+            <Operations/>
+            <InitParams>
+                <Schema name="AssemblyLineInitParams"/>
+            </InitParams>
+        </AssemblyLine>
+    </Folder>
+    <Folder name="Connectors"/>
+    <Folder name="Parsers"/>
+    <Folder name="Scripts"/>
+    <JavaLibraries/>
+    <JavaProperties/>
+    <Folder name="Includes"/>
+    <Folder name="Config">
+        <LogConfig name="Logging"/>
+        <InstanceProperties name="AutoStart">
+            <AutoStart/>
+        </InstanceProperties>
+        <TombstonesConfig name="Tombstones">
+            <ModTime>1361910953244</ModTime>
+            <parameter name="AssemblyLines">false</parameter>
+            <parameter name="Configuration">false</parameter>
+        </TombstonesConfig>
+        <SolutionInterface name="SolutionInterface">
+            <ModTime>1361900069157</ModTime>
+            <PollInterval>-1</PollInterval>
+            <InstanceID>CSV_ISIM</InstanceID>
+            <enabled>true</enabled>
+        </SolutionInterface>
+        <Container name="SystemStore">
+            <ParameterList name="Default"/>
+        </Container>
+    </Folder>
+    <Folder name="Functions"/>
+    <Folder name="AttributeMaps"/>
+    <Properties name="Properties">
+        <Stores>
+            <PropertyStore name="Solution-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Solution-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="Global-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">Global-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="System-Properties">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collectionType">System-Properties</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="CSVtoISIM">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/CSVtoISIM.properties</parameter>
+                    <parameter name="collectionType">CSVtoISIM</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+            <PropertyStore name="CSV_ISIM">
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <RawConnector>
+                    <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                    <parameter name="collection">@SUBSTITUTE{config.$directory}/CSVtoISIM.properties</parameter>
+                    <parameter name="collectionType">Default</parameter>
+                </RawConnector>
+                <Key>key</Key>
+                <Value>value</Value>
+                <ReadOnly>false</ReadOnly>
+                <InitialLoad>true</InitialLoad>
+                <CacheTimeout>0</CacheTimeout>
+            </PropertyStore>
+        </Stores>
+    </Properties>
+    <Folder name="Schedules"/>
+    <Folder name="Sequences"/>
+</MetamergeConfig>
